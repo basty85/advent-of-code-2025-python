@@ -45,7 +45,7 @@ def solve_part2(moves: list[tuple[str, int]]) -> int:
         if position > 0:
             zero_count += abs(position // 100 - old_position // 100)
         else:
-            if position % 100 == 0:
+            if position % 100 == 0:  # Correct that // in python rounds down to -inf
                 zero_count += 1
             zero_count += abs(position // 100 - old_position // 100)
 
