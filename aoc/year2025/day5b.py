@@ -35,14 +35,23 @@ def main() -> None:
 
     my_input = read_input()
     id_ranges, ids = process_input(my_input)
-    seen = set()
+    # sort according to start value in ascending order
+    id_ranges.sort(key=lambda x: x[0])
 
-    for start, end in id_ranges:
-        for id_ in ids:
-            if start <= id_ <= end + 1:
-                seen.add(id_)
+    merged = []
+    current_start, current_end = id_ranges[0]
 
-    count = len(seen)
+    for start, end in id_ranges[1:]:
+        if start <= current_end + 1:  # overlapping or directly adjacent
+            current_end = max(current_end, end)
+        else:
+            merged.append((current_start, current_end))
+            current_start, current_end = start, end
+
+    merged.append((current_start, current_end))  # add last range
+
+    # Sum number of values
+    count = sum(end - start + 1 for start, end in merged)
     print(count)
 
 
